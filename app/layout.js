@@ -1,28 +1,16 @@
-'use client';
-import { CssBaseline } from '@mui/material';
-import { ThemeProvider, createTheme } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#3f51b5',
-    },
-    secondary: {
-      main: '#f50057',
-    },
-  },
-});
+import './globals.css'
+import { ClerkProvider } from '@clerk/nextjs'
+import Navbar from './components/Navbar'
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <head />
-      <body>
-        <ThemeProvider theme={theme}>
-          <CssBaseline />
+    <ClerkProvider>
+      <html lang="en">
+        <body>
+          <Navbar />
           {children}
-        </ThemeProvider>
-      </body>
-    </html>
-  );
+        </body>
+      </html>
+    </ClerkProvider>
+  )
 }
