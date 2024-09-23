@@ -17,6 +17,8 @@ if (getApps().length === 0) {
   }
 }
 
+export const dynamic = 'force-dynamic';
+
 export async function GET(request) {
   try {
     const { userId } = await getAuth(request);

@@ -16,6 +16,8 @@ if (getApps().length === 0) {
 
 const bucket = getStorage().bucket(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET);
 
+export const dynamic = 'force-dynamic';
+
 export async function DELETE(request) {
   try {
     const { userId } = await getAuth(request);

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useUser } from "@clerk/nextjs";
 import { SignedIn, SignedOut } from '@clerk/nextjs';
 import { motion } from 'framer-motion';
@@ -11,13 +11,7 @@ export default function MyStories() {
   const [storyGroups, setStoryGroups] = useState({});
   const [selectedGroup, setSelectedGroup] = useState(null);
 
-  useEffect(() => {
-    if (user) {
-      fetchStories();
-    }
-  }, [user]);
-
-  const fetchStories = async () => {
+  const fetchStories = useCallback(async () => {
     try {
       const response = await fetch('/api/getStories');
       if (!response.ok) {
@@ -29,7 +23,13 @@ export default function MyStories() {
       console.error("Error fetching stories:", error);
       setStoryGroups({ error: [{ id: "error", story: "An error occurred while fetching your stories. Please try again later." }] });
     }
-  };
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      fetchStories();
+    }
+  }, [fetchStories]);
 
   const groupStoriesBySound = (stories) => {
     const groups = stories.reduce((acc, story) => {

@@ -2,6 +2,8 @@ import { NextResponse } from 'next/server';
 import { generateStoryFromAI } from '../../../lib/openai';
 import { supabase } from '../../../lib/supabaseClient';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(req) {
   try {
     const { sounds } = await req.json();

@@ -16,6 +16,8 @@ if (getApps().length === 0) {
 
 const bucket = getStorage().bucket(process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET);
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request) {
   try {
     const { userId } = await getAuth(request);
@@ -28,7 +30,7 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No story or sounds provided' }, { status: 400 });
     }
 
-    const fileName = `users/${userId}/stories/${sounds.join('_')}/${Date.now()}.json`;
+    const fileName = `users/${userId}/stories/${sounds.join('_')}/${Date.now()}.txt`;
     const file = bucket.file(fileName);
     await file.save(JSON.stringify({ story, sounds }), {
       metadata: {
