@@ -2,6 +2,8 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Your custom styles here */
+
 /* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
 
@@ -41,5 +43,17 @@ body {
   }
   .text-xl {
     font-size: 1rem;
+  }
+}
+
+/* Add these styles for better mobile responsiveness */
+html, body {
+  overflow-x: hidden;
+}
+
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
   }
 }

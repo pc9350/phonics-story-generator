@@ -1,35 +1,35 @@
-import { supabase } from '@/lib/supabaseClient';
-import { generateStoryFromAI } from '@/lib/openai';
 import { NextResponse } from 'next/server';
+import { generateStoryFromAI } from '../../../lib/openai';
+import { supabase } from '../../../lib/supabaseClient';
 
-export async function POST(request) {
-  const { sound } = await request.json();
-
-  if (!sound || sound.length === 0) {
-    return NextResponse.json({ error: 'No sound provided' }, { status: 400 });
-  }
-
+export async function POST(req) {
   try {
-    // Fetch CVC words from Supabase based on the sound
-    const { data, error } = await supabase
-      .from('phonics')
-      .select('words')
-      .eq('sound', sound.trim().toLowerCase());
+    const { sounds } = await req.json();
 
-    if (error || !data.length) {
-      return NextResponse.json({ error: 'No CVC words found for this sound' }, { status: 404 });
-    }
+    // Fetch words from Supabase based on the sounds
+    const wordsPromises = sounds.map(async (sound) => {
+      const { data, error } = await supabase
+        .from('phonics')
+        .select('*')
+        .eq('sound', sound);
 
-    console.log('CVC Words:', data[0].words); // Log the CVC words
+      if (error) {
+        console.error(`Error fetching words for sound ${sound}:`, error);
+        return [];
+      }
 
-    const cvcWords = data[0].words; // Extract the CVC words from the fetched data
+      return data.map(item => item.word);
+    });
 
-    // Pass the CVC words to the OpenAI function to generate the story
-    const story = await generateStoryFromAI(cvcWords);
+    const wordsArrays = await Promise.all(wordsPromises);
+    const wordList = wordsArrays.flat();
 
-    return NextResponse.json({ story }, { status: 200 });
+    // Generate story using OpenAI
+    const story = await generateStoryFromAI(sounds, wordList);
+
+    return NextResponse.json({ story });
   } catch (error) {
-    console.error('Error generating story:', error);
+    console.error('Error:', error);
     return NextResponse.json({ error: 'Failed to generate story' }, { status: 500 });
   }
 }
