@@ -33,13 +33,13 @@ export async function GET(request) {
         parsedContent = JSON.parse(content.toString('utf-8'));
       } catch (error) {
         console.error('Error parsing file content:', error);
-        parsedContent = { story: content.toString('utf-8'), sounds: [] };
+        parsedContent = { story: content.toString('utf-8'), sounds: [], createdAt: file.metadata.timeCreated };
       }
       return {
         id: file.name,
         story: parsedContent.story,
         sounds: parsedContent.sounds || [],
-        createdAt: file.metadata.timeCreated,
+        createdAt: parsedContent.createdAt || file.metadata.timeCreated,
       };
     }));
 

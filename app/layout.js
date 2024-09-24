@@ -1,21 +1,25 @@
-"use client";
+
 
 import './globals.css'
+import { Inter } from 'next/font/google'
 import { ClerkProvider } from '@clerk/nextjs'
-import Navbar from './components/Navbar'
 import { DarkModeProvider } from './context/DarkModeContext'
+
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'Phonics Story Generator',
+  description: 'Generate engaging phonics stories for children',
+}
 
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <DarkModeProvider>
-        <html lang="en">
-          <body className="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 transition-colors duration-300">
-            <Navbar />
-            {children}
-          </body>
-        </html>
-      </DarkModeProvider>
+      <html lang="en">
+        <DarkModeProvider>
+          <body className={inter.className}>{children}</body>
+        </DarkModeProvider>
+      </html>
     </ClerkProvider>
   )
 }
