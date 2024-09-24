@@ -26,19 +26,22 @@ export async function POST(request) {
     }
 
     const { story, sounds } = await request.json();
-    if (!story || !sounds || sounds.length === 0) {
-      return NextResponse.json({ error: 'No story or sounds provided' }, { status: 400 });
+
+    if (!story || !sounds) {
+      return NextResponse.json({ error: 'Missing story or sounds' }, { status: 400 });
     }
 
-    const fileName = `users/${userId}/stories/${sounds.join('_')}/${Date.now()}.txt`;
+    const createdAt = new Date().toISOString(); // Add this line
+    const fileName = `users/${userId}/stories/${Date.now()}.json`;
     const file = bucket.file(fileName);
-    await file.save(JSON.stringify({ story, sounds }), {
+
+    await file.save(JSON.stringify({ story, sounds, createdAt }), { // Include createdAt here
       metadata: {
         contentType: 'application/json',
       },
     });
 
-    return NextResponse.json({ message: 'Story saved successfully' });
+    return NextResponse.json({ message: 'Story saved successfully', id: fileName });
   } catch (error) {
     console.error('Error saving story:', error);
     return NextResponse.json({ error: 'Internal Server Error', details: error.message }, { status: 500 });

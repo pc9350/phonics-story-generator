@@ -32,8 +32,12 @@ export async function DELETE(request) {
       return NextResponse.json({ error: 'No story ID provided' }, { status: 400 });
     }
 
-    const fileName = `users/${userId}/stories/${storyId}.txt`;
-    await bucket.file(fileName).delete();
+    // Ensure the story belongs to the user
+    if (!storyId.startsWith(`users/${userId}/stories/`)) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    await bucket.file(storyId).delete();
 
     return NextResponse.json({ message: 'Story deleted successfully' });
   } catch (error) {
