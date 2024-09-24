@@ -1,11 +1,11 @@
 "use client";
 
-import Link from 'next/link';
+import Link from "next/link";
 import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
-import { Sun, Moon, BookOpen, Menu, X } from 'lucide-react';
-import { useDarkMode } from '../context/DarkModeContext';
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { Sun, Moon, BookOpen, Menu, X } from "lucide-react";
+import { useDarkMode } from "../context/DarkModeContext";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const Navbar = ({ isLanding = false }) => {
   const { darkMode, toggleDarkMode } = useDarkMode();
@@ -22,7 +22,10 @@ const Navbar = ({ isLanding = false }) => {
   return (
     <nav className={`${bgColor} p-4 transition-all duration-300 shadow-lg`}>
       <div className="container mx-auto flex justify-between items-center">
-        <Link href="/" className={`${textColor} text-2xl font-bold flex items-center`}>
+        <Link
+          href="/"
+          className={`${textColor} text-2xl font-bold flex items-center`}
+        >
           <BookOpen className="mr-2" size={32} />
           <span>Phonicsville</span>
         </Link>
@@ -30,7 +33,9 @@ const Navbar = ({ isLanding = false }) => {
           <button
             onClick={toggleDarkMode}
             className={`${textColor} hover:text-yellow-300 transition-all duration-300`}
-            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            aria-label={
+              darkMode ? "Switch to light mode" : "Switch to dark mode"
+            }
           >
             {darkMode ? <Sun size={24} /> : <Moon size={24} />}
           </button>
@@ -50,12 +55,17 @@ const Navbar = ({ isLanding = false }) => {
         {isMenuOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: 'auto' }}
+            animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="md:hidden mt-4"
           >
-            <NavItems textColor={textColor} isLanding={isLanding} isMobile={true} closeMenu={() => setIsMenuOpen(false)} />
+            <NavItems
+              textColor={textColor}
+              isLanding={isLanding}
+              isMobile={true}
+              closeMenu={() => setIsMenuOpen(false)}
+            />
           </motion.div>
         )}
       </AnimatePresence>
@@ -63,33 +73,69 @@ const Navbar = ({ isLanding = false }) => {
   );
 };
 
-const NavItems = ({ textColor, isLanding, isMobile = false, closeMenu = () => {} }) => (
-  <div className={`${isMobile ? 'flex flex-col items-center space-y-4' : 'flex items-center space-x-4'}`}>
+const NavItems = ({
+  textColor,
+  isLanding,
+  isMobile = false,
+  closeMenu = () => {},
+}) => (
+  <div
+    className={`${
+      isMobile
+        ? "flex flex-col items-center space-y-4"
+        : "flex items-center space-x-4"
+    }`}
+  >
     <SignedIn>
-      <Link 
-        href="/my-stories" 
-        className={`${textColor} hover:text-yellow-300 transition-colors duration-300 font-semibold ${isMobile ? 'text-center' : ''}`}
+      <Link
+        href="/my-stories"
+        className={`${textColor} hover:text-yellow-300 transition-colors duration-300 font-semibold ${
+          isMobile ? "text-center" : ""
+        }`}
         onClick={closeMenu}
       >
         My Stories
       </Link>
-      <div className={isMobile ? 'mt-2' : ''}>
-        <UserButton 
+      <Link
+        href="/contact"
+        className={`${textColor} hover:text-yellow-300 transition-colors duration-300 font-semibold ${
+          isMobile ? "text-center" : ""
+        }`}
+        onClick={closeMenu}
+      >
+        Contact Us
+      </Link>
+      <div className={isMobile ? "mt-2" : ""}>
+        <UserButton
           afterSignOutUrl="/"
           appearance={{
             elements: {
-              avatarBox: "hover:ring-4 hover:ring-yellow-300 transition-all duration-300"
-            }
+              avatarBox:
+                "hover:ring-4 hover:ring-yellow-300 transition-all duration-300",
+            },
           }}
         />
       </div>
     </SignedIn>
     <SignedOut>
+      <Link
+        href="/contact"
+        className={`${textColor} hover:text-yellow-300 transition-colors duration-300 font-semibold ${
+          isMobile ? "text-center" : ""
+        }`}
+        onClick={closeMenu}
+      >
+        Contact Us
+      </Link>
       <SignInButton mode="modal">
-        <button 
-          className={`${isLanding ? "bg-white text-indigo-600" : "bg-indigo-600 text-white"} 
+        <button
+          className={`${
+            isLanding ? "bg-white text-indigo-600" : "bg-indigo-600 text-white"
+          } 
             px-4 py-2 rounded-full hover:bg-yellow-300 hover:text-indigo-600 
-            transition-all duration-300 font-semibold ${isMobile ? 'w-full text-center' : ''}`}
+            transition-all duration-300 font-semibold ${
+              isMobile ? "w-full text-center" : ""
+            }`}
           onClick={closeMenu}
         >
           Sign In
