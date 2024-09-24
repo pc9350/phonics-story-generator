@@ -64,16 +64,16 @@ const Navbar = ({ isLanding = false }) => {
 };
 
 const NavItems = ({ textColor, isLanding, isMobile = false, closeMenu = () => {} }) => (
-  <div className={`flex flex-col items-center space-y-4 ${isMobile ? 'py-4' : ''}`}>
+  <div className={`${isMobile ? 'flex flex-col items-center space-y-4' : 'flex items-center space-x-4'}`}>
     <SignedIn>
       <Link 
         href="/my-stories" 
-        className={`${textColor} hover:text-yellow-300 transition-colors duration-300 font-semibold text-center`}
+        className={`${textColor} hover:text-yellow-300 transition-colors duration-300 font-semibold ${isMobile ? 'text-center' : ''}`}
         onClick={closeMenu}
       >
         My Stories
       </Link>
-      <div>
+      <div className={isMobile ? 'mt-2' : ''}>
         <UserButton 
           afterSignOutUrl="/"
           appearance={{
@@ -89,7 +89,7 @@ const NavItems = ({ textColor, isLanding, isMobile = false, closeMenu = () => {}
         <button 
           className={`${isLanding ? "bg-white text-indigo-600" : "bg-indigo-600 text-white"} 
             px-4 py-2 rounded-full hover:bg-yellow-300 hover:text-indigo-600 
-            transition-all duration-300 font-semibold text-center`}
+            transition-all duration-300 font-semibold ${isMobile ? 'w-full text-center' : ''}`}
           onClick={closeMenu}
         >
           Sign In
