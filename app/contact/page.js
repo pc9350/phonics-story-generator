@@ -1,23 +1,36 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { Send, Phone, Mail, MapPin } from 'lucide-react';
 import Navbar from '../components/Navbar';
+import emailjs from '@emailjs/browser';
 
 const ContactPage = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const form = useRef();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log('Form submitted:', { name, email, message });
-    alert('Thanks for your message! We\'ll get back to you soon!');
-    setName('');
-    setEmail('');
-    setMessage('');
+    setIsSubmitting(true);
+
+    emailjs.sendForm('YOUR_SERVICE_ID', 'YOUR_TEMPLATE_ID', form.current, 'YOUR_USER_ID')
+      .then((result) => {
+        console.log(result.text);
+        alert('Thanks for your message! We\'ll get back to you soon!');
+        setName('');
+        setEmail('');
+        setMessage('');
+      }, (error) => {
+        console.log(error.text);
+        alert('Failed to send the message. Please try again.');
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
   };
 
   return (
@@ -41,12 +54,13 @@ const ContactPage = () => {
             transition={{ duration: 0.5, delay: 0.2 }}
           >
             <h2 className="text-2xl font-bold mb-4 text-indigo-600 dark:text-indigo-400">Send Us a Message</h2>
-            <form onSubmit={handleSubmit} className="space-y-4">
+            <form ref={form} onSubmit={handleSubmit} className="space-y-4">
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Name</label>
                 <input
                   type="text"
                   id="name"
+                  name="user_name"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required
@@ -58,6 +72,7 @@ const ContactPage = () => {
                 <input
                   type="email"
                   id="email"
+                  name="user_email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
@@ -68,6 +83,7 @@ const ContactPage = () => {
                 <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Message</label>
                 <textarea
                   id="message"
+                  name="message"
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   required
@@ -80,9 +96,10 @@ const ContactPage = () => {
                 className="w-full bg-indigo-600 text-white py-2 px-4 rounded-full hover:bg-indigo-700 transition duration-300"
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                disabled={isSubmitting}
               >
                 <Send className="inline mr-2" size={18} />
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </motion.button>
             </form>
           </motion.div>
