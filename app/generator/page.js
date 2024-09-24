@@ -98,6 +98,169 @@ const PhonicsMatchingGame = () => {
   );
 };
 
+// New game: Word Scramble
+const WordScrambleGame = () => {
+  const [word, setWord] = useState("");
+  const [scrambledWord, setScrambledWord] = useState("");
+  const [userGuess, setUserGuess] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const words = ["cat", "dog", "fish", "bird", "frog"];
+    const selectedWord = words[Math.floor(Math.random() * words.length)];
+    setWord(selectedWord);
+    setScrambledWord(scrambleWord(selectedWord));
+  }, []);
+
+  const scrambleWord = (w) => {
+    return w.split('').sort(() => Math.random() - 0.5).join('');
+  };
+
+  const handleGuess = () => {
+    if (userGuess.toLowerCase() === word) {
+      setMessage("Correct! Well done!");
+    } else {
+      setMessage("Try again!");
+    }
+  };
+
+  return (
+    <div className="bg-yellow-100 dark:bg-yellow-900 rounded-3xl shadow-lg p-4 sm:p-6">
+      <h3 className="text-lg sm:text-xl font-bold mb-4 text-yellow-800 dark:text-yellow-200">
+        Word Scramble
+      </h3>
+      <p className="mb-4">Unscramble this word: <strong>{scrambledWord}</strong></p>
+      <input
+        type="text"
+        value={userGuess}
+        onChange={(e) => setUserGuess(e.target.value)}
+        className="w-full px-3 py-2 mb-4 rounded-lg"
+      />
+      <button
+        onClick={handleGuess}
+        className="bg-yellow-500 text-white px-4 py-2 rounded-lg"
+      >
+        Guess
+      </button>
+      {message && <p className="mt-4">{message}</p>}
+    </div>
+  );
+};
+
+// New game: Rhyming Words
+const RhymingWordsGame = () => {
+  const [word, setWord] = useState("");
+  const [userGuess, setUserGuess] = useState("");
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const words = ["cat", "dog", "hat", "log", "mat"];
+    setWord(words[Math.floor(Math.random() * words.length)]);
+  }, []);
+
+  const handleGuess = () => {
+    const rhymes = {
+      cat: ["bat", "hat", "mat", "rat"],
+      dog: ["fog", "log", "bog", "cog"],
+      hat: ["cat", "bat", "mat", "rat"],
+      log: ["dog", "fog", "bog", "cog"],
+      mat: ["cat", "hat", "bat", "rat"],
+    };
+
+    if (rhymes[word].includes(userGuess.toLowerCase())) {
+      setMessage("Great job! That rhymes!");
+    } else {
+      setMessage("Try again! Find a word that rhymes.");
+    }
+  };
+
+  return (
+    <div className="bg-green-100 dark:bg-green-900 rounded-3xl shadow-lg p-4 sm:p-6">
+      <h3 className="text-lg sm:text-xl font-bold mb-4 text-green-800 dark:text-green-200">
+        Rhyming Words
+      </h3>
+      <p className="mb-4">Find a word that rhymes with: <strong>{word}</strong></p>
+      <input
+        type="text"
+        value={userGuess}
+        onChange={(e) => setUserGuess(e.target.value)}
+        className="w-full px-3 py-2 mb-4 rounded-lg"
+      />
+      <button
+        onClick={handleGuess}
+        className="bg-green-500 text-white px-4 py-2 rounded-lg"
+      >
+        Check
+      </button>
+      {message && <p className="mt-4">{message}</p>}
+    </div>
+  );
+};
+
+// New game: Letter Sound Match
+const LetterSoundMatchGame = () => {
+  const [letter, setLetter] = useState("");
+  const [options, setOptions] = useState([]);
+  const [message, setMessage] = useState("");
+
+  useEffect(() => {
+    const letters = ["A", "B", "C", "D", "E"];
+    const selectedLetter = letters[Math.floor(Math.random() * letters.length)];
+    setLetter(selectedLetter);
+    setOptions(generateOptions(selectedLetter));
+  }, []);
+
+  const generateOptions = (l) => {
+    const sounds = {
+      A: "apple", B: "ball", C: "cat", D: "dog", E: "elephant"
+    };
+    const correctSound = sounds[l];
+    const allSounds = Object.values(sounds);
+    const wrongSounds = allSounds.filter(sound => sound !== correctSound);
+    const selectedWrongSounds = wrongSounds.sort(() => 0.5 - Math.random()).slice(0, 2);
+    return [correctSound, ...selectedWrongSounds].sort(() => 0.5 - Math.random());
+  };
+
+  const handleGuess = (guess) => {
+    const sounds = {
+      A: "apple", B: "ball", C: "cat", D: "dog", E: "elephant"
+    };
+    if (guess === sounds[letter]) {
+      setMessage("Correct! Well done!");
+    } else {
+      setMessage("Try again!");
+    }
+  };
+
+  return (
+    <div className="bg-blue-100 dark:bg-blue-900 rounded-3xl shadow-lg p-4 sm:p-6">
+      <h3 className="text-lg sm:text-xl font-bold mb-4 text-blue-800 dark:text-blue-200">
+        Letter Sound Match
+      </h3>
+      <p className="mb-4">What sound does the letter <strong>{letter}</strong> make?</p>
+      <div className="grid grid-cols-1 gap-2">
+        {options.map((option, index) => (
+          <button
+            key={index}
+            onClick={() => handleGuess(option)}
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+          >
+            {option}
+          </button>
+        ))}
+      </div>
+      {message && <p className="mt-4">{message}</p>}
+    </div>
+  );
+};
+
+// Function to select the daily game
+const selectDailyGame = () => {
+  const games = [PhonicsMatchingGame, WordScrambleGame, RhymingWordsGame, LetterSoundMatchGame];
+  const dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+  return games[(dayOfYear % games.length)];
+};
+
 export default function Generator() {
   const [soundInput, setSoundInput] = useState("");
   const [story, setStory] = useState("");
@@ -186,6 +349,8 @@ export default function Generator() {
       });
   };
 
+  const DailyGame = selectDailyGame();
+
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 transition-colors duration-300">
       <Navbar isLanding={true} />
@@ -207,7 +372,7 @@ export default function Generator() {
         </div>
 
         <div className="flex flex-col lg:flex-row gap-6 sm:gap-8">
-          {/* Left column: Generator card and Phonics Matching Game */}
+          {/* Left column: Generator card and Daily Game */}
           <div className="w-full lg:w-1/2 flex flex-col gap-6">
             <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-2xl p-6 sm:p-8">
               <h1 className="text-3xl sm:text-4xl font-extrabold mb-4 sm:mb-6 text-center text-indigo-600 dark:text-indigo-400">
@@ -240,7 +405,7 @@ export default function Generator() {
                 </AnimatedButton>
               </div>
             </div>
-            <PhonicsMatchingGame />
+            <DailyGame />
           </div>
 
           {/* Right column: Generated story and decorative elements */}
