@@ -99,7 +99,7 @@ export default function Home() {
       <footer className="bg-black bg-opacity-50 text-white">
         <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-indigo-200">
-            &copy; 2024 Phonics Story Generator. All rights reserved.
+            &copy; 2024 Phonicsjoy. All rights reserved.
           </p>
         </div>
       </footer>

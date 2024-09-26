@@ -27,7 +27,7 @@ const Navbar = ({ isLanding = false }) => {
           className={`${textColor} text-2xl font-bold flex items-center`}
         >
           <BookOpen className="mr-2" size={32} />
-          <span>Phonicsville</span>
+          <span>Phonicsjoy</span>
         </Link>
         <div className="flex items-center space-x-4">
           <button
