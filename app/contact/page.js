@@ -111,7 +111,7 @@ const ContactPage = () => {
                 </li>
                 <li className="flex items-center">
                   <Mail className="mr-2 text-green-600 dark:text-green-400" />
-                  <span className="text-green-700 dark:text-green-300">pragatichhabra76@gmail.com</span>
+                  <span className="text-green-700 dark:text-green-300">phonicsjoy.business@gmail.com</span>
                 </li>
                 <li className="flex items-center">
                   <MapPin className="mr-2 text-green-600 dark:text-green-400" />
