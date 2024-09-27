@@ -139,7 +139,7 @@ const ContactPage = () => {
                 <li>Our 'Word Wall' grows with every new sound we learn!</li>
                 <li>Our rhyming chain record: 15 words! Can you top it?</li>
                 <li>
-                  Our classroom mascot 'Soundy the Owl' helps spot tricky words.
+                  Our classroom mascot 'Phonics the Dog' helps spot tricky words.
                 </li>
               </ul>
             </div>
