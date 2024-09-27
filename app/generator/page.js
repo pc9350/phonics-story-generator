@@ -449,7 +449,7 @@ export default function Generator() {
                     <Book className="mr-2 w-7 h-7 sm:w-8 sm:h-8" />
                     <p>Your Magical Phonics Story</p>
                   </h2>
-                  <p className="text-base sm:text-lg leading-relaxed text-gray-700 dark:text-gray-300 mb-6 sm:mb-8">
+                  <p className="text-2xl md:text-2xl leading-relaxed text-gray-700 dark:text-gray-300 mb-6 sm:mb-8">
                     {story}
                   </p>
                   <div className="flex flex-col gap-3">
@@ -458,7 +458,7 @@ export default function Generator() {
                       className="flex items-center justify-center bg-green-500 hover:bg-green-600"
                     >
                       <Save className="mr-2 w-5 h-5" />
-                      <p className="text-sm">Save Story</p>
+                      <p className="text-lg">Save Story</p>
                     </AnimatedButton>
                     <AnimatedButton
                       onClick={copyToClipboard}
