@@ -261,11 +261,31 @@ const selectDailyGame = () => {
   return games[(dayOfYear % games.length)];
 };
 
+// Add this new array of words with emojis
+const wordsOfTheDay = [
+  { word: "Cat", emoji: "🐱" },
+  { word: "Dog", emoji: "🐶" },
+  { word: "Sun", emoji: "☀️" },
+  { word: "Moon", emoji: "🌙" },
+  { word: "Star", emoji: "⭐" },
+  { word: "Fish", emoji: "🐠" },
+  { word: "Bird", emoji: "🐦" },
+  { word: "Tree", emoji: "🌳" },
+  { word: "Book", emoji: "📚" },
+  { word: "Ball", emoji: "🏀" },
+  { word: "Hat", emoji: "🧢" },
+  { word: "Car", emoji: "🚗" },
+  { word: "Boat", emoji: "⛵" },
+  { word: "Frog", emoji: "🐸" },
+  { word: "Cake", emoji: "🍰" }
+];
+
 export default function Generator() {
   const [soundInput, setSoundInput] = useState("");
   const [story, setStory] = useState("");
   const [loading, setLoading] = useState(false);
   const { user } = useUser();
+  const [currentWord, setCurrentWord] = useState({ word: "", emoji: "" });
 
   const handleInputChange = (e) => {
     setSoundInput(e.target.value);
@@ -350,6 +370,18 @@ export default function Generator() {
   };
 
   const DailyGame = selectDailyGame();
+
+  useEffect(() => {
+    const wordIndex = Math.floor((Date.now() / 86400000) % wordsOfTheDay.length);
+    setCurrentWord(wordsOfTheDay[wordIndex]);
+
+    const intervalId = setInterval(() => {
+      const newIndex = Math.floor((Date.now() / 86400000) % wordsOfTheDay.length);
+      setCurrentWord(wordsOfTheDay[newIndex]);
+    }, 86400000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   return (
     <div className="min-h-screen bg-gradient-to-r from-blue-100 to-purple-100 dark:from-indigo-900 dark:to-purple-900 transition-colors duration-300">
@@ -487,15 +519,16 @@ export default function Generator() {
                 </ul>
               </div>
 
+              {/* Updated Word of the Day section */}
               <div className="bg-blue-100 dark:bg-blue-900 rounded-3xl shadow-lg p-6 overflow-hidden">
                 <h3 className="text-xl font-bold mb-3 text-blue-800 dark:text-blue-200">
                   Word of the Day
                 </h3>
                 <div className="flex items-center">
                   <p className="text-3xl font-bold text-blue-600 dark:text-blue-300 mr-4 animate-pulse">
-                    Cat
+                    {currentWord.word}
                   </p>
-                  <div className="text-5xl animate-wiggle">🐱</div>
+                  <div className="text-5xl animate-wiggle">{currentWord.emoji}</div>
                 </div>
               </div>
             </div>
