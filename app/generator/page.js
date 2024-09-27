@@ -160,11 +160,21 @@ const RhymingWordsGame = () => {
 
   const handleGuess = () => {
     const rhymes = {
-      cat: ["bat", "hat", "mat", "rat"],
-      dog: ["fog", "log", "bog", "cog"],
-      hat: ["cat", "bat", "mat", "rat"],
-      log: ["dog", "fog", "bog", "cog"],
-      mat: ["cat", "hat", "bat", "rat"],
+      cat: ["bat", "hat", "mat", "rat", "sat", "flat", "chat", "gnat", "pat", "that"],
+      dog: ["fog", "log", "bog", "cog", "frog", "hog", "jog", "slog", "smog", "trog"],
+      hat: ["bat", "cat", "fat", "mat", "pat", "rat", "sat", "that", "flat", "gnat"],
+      log: ["bog", "cog", "dog", "fog", "frog", "hog", "jog", "smog", "slog", "trog"],
+      mat: ["bat", "cat", "fat", "hat", "pat", "rat", "sat", "that", "flat", "gnat"],
+      bed: ["fed", "led", "red", "shed", "sled", "wed", "bread", "dread", "spread", "thread"],
+      pig: ["big", "dig", "fig", "gig", "jig", "rig", "twig", "wig", "swig", "sprig"],
+      sun: ["bun", "fun", "gun", "nun", "run", "done", "none", "son", "ton", "won"],
+      ball: ["call", "fall", "hall", "mall", "tall", "wall", "crawl", "shawl", "small", "stall"],
+      king: ["bring", "cling", "fling", "ring", "sing", "sting", "swing", "thing", "wing", "spring"],
+      blue: ["clue", "glue", "true", "sue", "due", "new", "flew", "grew", "stew", "few"],
+      tree: ["bee", "fee", "knee", "see", "tea", "key", "flea", "free", "glee", "three"],
+      star: ["bar", "car", "far", "jar", "mar", "par", "scar", "tar", "are", "czar"],
+      moon: ["noon", "soon", "tune", "dune", "june", "prune", "spoon", "swoon", "balloon", "cartoon"],
+      book: ["cook", "hook", "look", "nook", "took", "shook", "brook", "crook", "rook", "snook"]
     };
 
     if (rhymes[word].includes(userGuess.toLowerCase())) {
