@@ -315,7 +315,7 @@ export default function Generator() {
       const response = await fetch("/api/story", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ sounds }),
+        body: JSON.stringify({ sounds: sounds.map(sound => sound.toLowerCase()) }),
       });
 
       const data = await response.json();
